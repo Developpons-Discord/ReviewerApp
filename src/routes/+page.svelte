@@ -1,3 +1,1 @@
-<script lang='ts'>
-import { Button } from 'flowbite-svelte';
-</script>
+<script lang='ts'></script>

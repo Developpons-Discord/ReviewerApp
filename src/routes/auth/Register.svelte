@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Button, Card, Checkbox, Input, Label, Modal } from 'flowbite-svelte';
+	import { Button, Checkbox, Input, Label, Modal } from 'flowbite-svelte';
 
 	let cgu       = false;
 	let cguOpened = false;

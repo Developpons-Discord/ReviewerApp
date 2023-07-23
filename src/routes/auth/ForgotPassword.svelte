@@ -1,5 +1,5 @@
 <script>
-	import { Button, Card, Checkbox, Input, Label } from 'flowbite-svelte';
+	import { Button, Input, Label } from 'flowbite-svelte';
 </script>
 
 <svelte:head>
