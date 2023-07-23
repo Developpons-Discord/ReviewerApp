@@ -2,7 +2,7 @@
   import "../app.scss";
 </script>
 
-<main>
+<main class='h-screen w-screen dark'>
   <slot />
 </main>
 
