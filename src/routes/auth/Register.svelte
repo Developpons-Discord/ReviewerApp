@@ -1,34 +1,68 @@
-<script lang="ts">
-	import { Button, Checkbox, Input, Label, Modal } from 'flowbite-svelte';
+<script lang='ts'>
+	import { Alert, Button, Checkbox, Input, Label, Modal, Spinner } from 'flowbite-svelte';
+	import type { RegisterDto } from '$lib/auth/registrar';
+	import { register } from '$lib/auth/registrar';
 
-	let cgu       = false;
-	let cguOpened = false;
+	let username: string;
+	let email: string;
+	let password: string, confirmPassword: string;
 
-	const register = (event: SubmitEvent) => {
-		const data = new FormData(event.target as HTMLFormElement);
-		console.log({
-			username: data.get('username'),
-			email: data.get('email'),
-			password: data.get('password'),
-			confirmPassword: data.get('confirmPassword'),
-			cgu: data.get('cgu'),
-		});
-	}
+	let eula = false;
+	let eulaOpened = false;
+
+	let loading = false;
+	let errors: string[] = [];
+	let success: boolean | undefined = undefined;
+
+	const registerSubmit = async () => {
+		const registerDto: RegisterDto = {
+			username, email, password, confirmPassword, eula
+		};
+
+		loading = true;
+
+		const result = await register(registerDto);
+		errors = result.error ? [...result.error] : [];
+
+		loading = false;
+		success = errors.length === 0;
+	};
 </script>
 
 <svelte:head>
 	<title>S'inscrire</title>
 </svelte:head>
 
-<form class='flex flex-col space-y-6' on:submit|preventDefault={register}>
+<form class='flex flex-col space-y-6' on:submit|preventDefault={registerSubmit}>
+	{#if errors.length > 0}
+		<Alert color='red' border class='items-start'>
+			<p class='font-medium'>
+				Des erreurs sont survenues lors de l'inscription :
+			</p>
+			<ul class='mt-1.5 ml-4 list-disc list-inside'>
+				{#each errors as error}
+					<li>{error}</li>
+				{/each}
+			</ul>
+		</Alert>
+	{/if}
+
+	{#if success}
+		<Alert color='green' border>
+			<p class='font-medium'>
+				Votre inscription a été effectuée avec succès ! Vérifiez vos emails pour activer votre compte.
+			</p>
+		</Alert>
+	{/if}
+
 	<Label class='space-y-2'>
 		<span>Nom d'utilisateur</span>
-		<Input type='username' placeholder='JohnDoe' name='username' required />
+		<Input type='username' placeholder='JohnDoe' name='username' required bind:value={username} />
 	</Label>
 
 	<Label class='space-y-2'>
 		<span>Email</span>
-		<Input type='email' placeholder='nom@exemple.com' name='email' required />
+		<Input type='email' placeholder='nom@exemple.com' name='email' required bind:value={email} />
 	</Label>
 
 	<Label class='space-y-2'>
@@ -36,7 +70,7 @@
 				Mot de passe
 			</span>
 
-		<Input type='password' placeholder='••••••' name='password' required />
+		<Input type='password' placeholder='••••••' name='password' required bind:value={password} />
 	</Label>
 
 	<Label class='space-y-2'>
@@ -44,24 +78,30 @@
 				Confirmer le mot de passe
 			</span>
 
-		<Input type='password' placeholder='••••••' name='confirmPassword' required />
+		<Input type='password' placeholder='••••••' name='confirmPassword' required bind:value={confirmPassword} />
 	</Label>
 
-	<Checkbox bind:checked={cgu} name='cgu' required>
-		J'accepte les&nbsp;
-		<button on:click|preventDefault={() => cguOpened = true} class='text-sm text-primary-500 hover:underline'>conditions
-			générales
-			d'utilisation
-		</button>
-		&nbsp;du site.
+	<Checkbox bind:checked={eula} name='eula' required>
+		<p>
+			J'accepte les
+			<input type='button' on:click|preventDefault={() => eulaOpened = true}
+						 class='text-sm text-primary-500 hover:underline cursor-pointer'
+						 value="conditions générales d'utilisation" required>
+			du site.
+		</p>
 	</Checkbox>
 
-	<Button type='submit' class='w-full'>
-		S'inscrire
+	<Button type='submit' class='w-full' disabled={loading}>
+		{#if loading}
+			<Spinner class='mr-3' size='4' color='white' />
+			Chargement...
+		{:else}
+			S'inscrire
+		{/if}
 	</Button>
 </form>
 
-<Modal title="Conditions générales d'utilisation" bind:open={cguOpened} autoclose outsideclose>
+<Modal title="Conditions générales d'utilisation" bind:open={eulaOpened} autoclose outsideclose>
 	<p>
 		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
 		aliqua. Turpis in eu mi bibendum neque egestas. Risus viverra adipiscing at in tellus integer. Viverra aliquet eget
@@ -137,7 +177,7 @@
 	</p>
 
 	<svelte:fragment slot='footer'>
-		<Button on:click={() => cguOpened = false}>
+		<Button on:click={() => eulaOpened = false}>
 			Fermer
 		</Button>
 	</svelte:fragment>

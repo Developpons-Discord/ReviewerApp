@@ -1,3 +1,27 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  scrollbar-width: thin;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track-piece {
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: opacify(darken(#c2d2e4, 25%), .5);
+  border-radius: 5px;
+
+  &:hover {
+    background-color: darken(#c2d2e4, 35%);
+  }
+
+  &:active {
+    background-color: darken(#c2d2e4, 45%);
+  }
+}
