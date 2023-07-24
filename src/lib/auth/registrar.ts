@@ -34,3 +34,20 @@ export async function register({
 			return Maybe.error(['Une erreur inconnue est survenue']);
 		}
 	}
+}
+
+export async function confirm(userId: number, code: string): Promise<Maybe<void, string>> {
+	try {
+		await axios.post('/auth/confirm', undefined, {
+			params: {
+				userId,
+				code
+			}
+		});
+
+		return Maybe.empty();
+	} catch (e) {
+		const error: string = (e as AxiosError).response?.data?.message;
+		return Maybe.error(error);
+	}
+}
