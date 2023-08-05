@@ -14,7 +14,12 @@ export async function sendEmail(email: string): Promise<Maybe<void, string>> {
 	}
 }
 
-export async function doChangePassword(userId: number, code: string, password: string, confirmPassword: string) {
+export async function doChangePassword(
+	userId: number,
+	code: string,
+	password: string,
+	confirmPassword: string
+): Promise<Maybe<unknown, string[]> | Maybe<void, unknown> | Maybe<unknown, string>>{
     if (password !== confirmPassword) {
 		return Maybe.error(['Le mot de passe et sa confirmation doivent être identiques']);
 	}

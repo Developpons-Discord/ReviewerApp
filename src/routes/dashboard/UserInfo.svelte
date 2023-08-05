@@ -24,11 +24,3 @@
 
     <!-- here add button to change password -->
 </div>
-
-<!--{#await promise}
-    <p>Loading...</p>
-{:then data}
-    <p>{data.id}</p>
-{:catch error}
-    <p>An error occurred: {error}</p>
-{/await}-->
