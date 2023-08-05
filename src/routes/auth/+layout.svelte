@@ -1,8 +1,5 @@
 <script>
-	import { Card, TabItem, Tabs } from 'flowbite-svelte';
-	import Login from './Login.svelte';
-	import Register from './Register.svelte';
-	import ForgotPassword from './ForgotPassword.svelte';
+	import { Card } from 'flowbite-svelte';
 </script>
 
 <section id='auth' class='w-full h-screen bg-slate-800 flex items-center justify-center lg:p-36 sm:p-0'>

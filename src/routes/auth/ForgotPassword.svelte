@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Alert, Button, Input, Label, Spinner } from 'flowbite-svelte';
-	import { sendEmail } from '$lib/auth/changePassword'
+	import {sendEmail} from "$lib/auth/change-password";
 
 	let email: string
 	

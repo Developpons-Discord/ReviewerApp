@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Alert, Button, Input, Label, Spinner } from 'flowbite-svelte';
 	import { page } from '$app/stores';
-    import { doChangePassword } from '$lib/auth/changePassword';
+    import { doChangePassword } from '$lib/auth/change-password';
 
 	let password: string
     let confirmPassword: string
@@ -16,7 +16,7 @@
 		errors.push('Le lien de confirmation est invalide. Veuillez réessayer.');
 	}
 
-    async function onSubmit() {
+    async function sendChangePasswordEmail() {
 		loading = true;
 
         const result = await doChangePassword(Number(userId), String(code), password, confirmPassword);
@@ -32,7 +32,7 @@
     <title>Changement de mot de passe</title>
 </svelte:head>
 
-<form class="flex flex-col space-y-6" on:submit={onSubmit}>
+<form class="flex flex-col space-y-6" on:submit={sendChangePasswordEmail}>
     <h3 class="font-bold">Changement de mot de passe</h3>
 
     {#if errors.length > 0}

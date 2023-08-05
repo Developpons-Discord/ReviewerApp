@@ -4,7 +4,7 @@ import Maybe from '$lib/types/maybe';
 
 export async function getCurrentUser(): Promise<Maybe<User, string>> {
 	try {
-		const user = await axios.get<User>('/auth/profile', {
+		const user = await axios.get<User>('http://localhost:3000/auth/profile', {
 			withCredentials: true
 		});
 		return Maybe.ok(user.data);

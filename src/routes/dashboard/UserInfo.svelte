@@ -1,15 +1,5 @@
-<script>
-    import { onMount } from 'svelte';
-    import { getCurrentUser } from '$lib/auth/getCurrentUser'
-
-    let userData = Object();
-
-    onMount(async () => {
-        const user = await getCurrentUser()
-        if(user != undefined){
-            userData = user.value
-        }
-    });
+<script lang="ts">
+    export let userData = {}
 </script>
 
 <div>
@@ -19,15 +9,13 @@
         <h3 class="font-bold">Informations du compte</h3>
         <p>Nom d'utilisateur : {userData.username}</p>
         <p>Email : {userData.email}</p>
-        <p>Vérifié : {userData.verified ? 'Oui' : 'Non'}</p>
+        <p>Vérifié : Oui</p>
         <div class="flex flex-col">
             <p>Roles</p>
             <ul class="flex flex-col gap-y-1 list-disc ms-5">
-                {#if userData.roles != undefined}
-                    {#each userData.roles as role}
-                        <li>{role}</li>
-                    {/each}
-                {/if}
+                {#each userData.roles as role}
+                    <li>{role}</li>
+                {/each}
             </ul>
         </div>
         <p>Crée le : {userData.createdAt}</p>
@@ -36,3 +24,11 @@
 
     <!-- here add button to change password -->
 </div>
+
+<!--{#await promise}
+    <p>Loading...</p>
+{:then data}
+    <p>{data.id}</p>
+{:catch error}
+    <p>An error occurred: {error}</p>
+{/await}-->
