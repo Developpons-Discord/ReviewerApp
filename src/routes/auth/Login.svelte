@@ -30,7 +30,7 @@
 
 			}
 			setTimeout(() => {
-				window.location.href = '/';
+				window.location.href = '/dashboard';
 			}, 1000);
 		}
 	};
