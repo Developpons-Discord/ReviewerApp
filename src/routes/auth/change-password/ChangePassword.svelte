@@ -1,23 +1,23 @@
 <script lang="ts">
     import { Alert, Button, Input, Label, Spinner } from 'flowbite-svelte';
-	import { page } from '$app/stores';
+    import { page } from '$app/stores';
     import { doChangePassword } from '$lib/auth/change-password';
 
-	let password: string
+    let password: string
     let confirmPassword: string
 
-	let loading = false;
-	let errors: string[] = [];
-	let success: boolean | undefined = undefined;
+    let loading = false;
+    let errors: string[] = [];
+    let success: boolean | undefined = undefined;
 
     const [code, userId] = [$page.url.searchParams.get('code'), $page.url.searchParams.get('userId')];
 
-	if (!(code && userId)) {
-		errors.push('Le lien de confirmation est invalide. Veuillez réessayer.');
-	}
+    if (!(code && userId)) {
+    	errors.push('Le lien de confirmation est invalide. Veuillez réessayer.');
+    }
 
     async function sendChangePasswordEmail() {
-		loading = true;
+    	loading = true;
 
         const result = await doChangePassword(Number(userId), String(code), password, confirmPassword);
         let _errors = result.error ? [...result.error] : [];
