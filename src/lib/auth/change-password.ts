@@ -1,4 +1,4 @@
-import axios, { AxiosError } from 'axios';
+import axios, {AxiosError} from 'axios';
 import Maybe from '$lib/types/maybe';
 
 
