@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Alert, Button, Input, Label, Spinner } from 'flowbite-svelte';
+    import { Alert, Button, Input, Label, Spinner } from 'flowbite-svelte';
 	import { page } from '$app/stores';
     import { doChangePassword } from '$lib/auth/change-password';
 
