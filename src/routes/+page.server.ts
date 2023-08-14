@@ -1,8 +1,9 @@
-// @ts-ignore
-export function load({cookies}) {
-    const access_token = cookies.get('access_token')
+import type { Cookies } from '@sveltejs/kit';
 
-    return {
-        access_token
-    }
+export function load({ cookies }: { cookies: Cookies }) {
+	const access_token = cookies.get('access_token');
+
+	return {
+		access_token
+	};
 }
