@@ -1,5 +1,6 @@
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import Maybe from '$lib/types/maybe';
+import {handleErrors} from "$lib/utils/requests";
 
 export declare interface RegisterDto {
 	username: string;
@@ -25,18 +26,11 @@ export async function register({
 		});
 		return Maybe.empty();
 	} catch (e) {
-		const error: string[] | string = (e as AxiosError).response?.data?.message;
-		if (typeof error === 'string') {
-			return Maybe.error([error]);
-		} else if (typeof error === 'object') {
-			return Maybe.error([...error]);
-		} else {
-			return Maybe.error(['Une erreur inconnue est survenue']);
-		}
+		return handleErrors<void>(e)
 	}
 }
 
-export async function confirm(userId: number, code: string): Promise<Maybe<void, string>> {
+export async function confirm(userId: number, code: string): Promise<Maybe<void, string[]>> {
 	try {
 		await axios.post('/auth/confirm', undefined, {
 			params: {
@@ -47,19 +41,17 @@ export async function confirm(userId: number, code: string): Promise<Maybe<void,
 
 		return Maybe.empty();
 	} catch (e) {
-		const error: string = (e as AxiosError).response?.data?.message;
-		return Maybe.error(error);
+		return handleErrors<void>(e)
 	}
 }
 
-export async function resend(): Promise<Maybe<void, string>> {
+export async function resend(): Promise<Maybe<void, string[]>> {
 	try {
 		await axios.post('/auth/resend', undefined, {
 			withCredentials: true
 		});
 		return Maybe.empty();
 	} catch (e) {
-		const error: string = (e as AxiosError).response?.data?.message;
-		return Maybe.error(error);
+		return handleErrors<void>(e)
 	}
 }
