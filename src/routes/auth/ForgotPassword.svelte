@@ -23,7 +23,7 @@
 	<title>Mot de passe oublié</title>
 </svelte:head>
 
-<form class='flex flex-col space-y-6' on:submit={onSubmit}>
+<form class='flex flex-col space-y-6' on:submit|preventDefault={onSubmit}>
 	{#if errors.length > 0}
 		<Alert color='red' border class='items-start'>
 			<p class='font-medium'>
