@@ -57,7 +57,7 @@
 
 	<Label class='space-y-2'>
 		<span>Nom d'utilisateur</span>
-		<Input type='username' placeholder='JohnDoe' name='username' required bind:value={username} />
+		<Input type='text' placeholder='JohnDoe' name='username' required bind:value={username} />
 	</Label>
 
 	<Label class='space-y-2'>

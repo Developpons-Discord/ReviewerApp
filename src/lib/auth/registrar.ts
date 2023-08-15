@@ -51,3 +51,15 @@ export async function confirm(userId: number, code: string): Promise<Maybe<void,
 		return Maybe.error(error);
 	}
 }
+
+export async function resend(): Promise<Maybe<void, string>> {
+	try {
+		await axios.post('/auth/resend', undefined, {
+			withCredentials: true
+		});
+		return Maybe.empty();
+	} catch (e) {
+		const error: string = (e as AxiosError).response?.data?.message;
+		return Maybe.error(error);
+	}
+}
