@@ -1,7 +1,8 @@
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import Maybe from '$lib/types/maybe';
+import {handleErrors} from "$lib/utils/requests";
 
-export async function sendEmail(email: string): Promise<Maybe<void, string>> {
+export async function sendEmail(email: string): Promise<Maybe<void, string[]>> {
 	try {
 		await axios.post(
 			'/auth/change-password',
@@ -12,8 +13,7 @@ export async function sendEmail(email: string): Promise<Maybe<void, string>> {
 		);
 		return Maybe.empty();
 	} catch (e) {
-		const error: string = (e as AxiosError).response?.data?.message;
-		return Maybe.error(error);
+		return handleErrors<void>(e)
 	}
 }
 
@@ -37,13 +37,6 @@ export async function doChangePassword(
 		);
 		return Maybe.empty();
 	} catch (e) {
-		const error: string[] | string = (e as AxiosError).response?.data?.message;
-		if (typeof error === 'string') {
-			return Maybe.error([error]);
-		} else if (typeof error === 'object') {
-			return Maybe.error([...error]);
-		} else {
-			return Maybe.error(['Une erreur inconnue est survenue']);
-		}
+		return handleErrors<void>(e)
 	}
 }
